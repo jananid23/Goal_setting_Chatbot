@@ -41,7 +41,7 @@ session_memory = {}
 @sio.event
 async def connect(sid, environ):
     print(f"Client connected: {sid}")
-    await sio.emit("chat_response", "✅ Connected to Gemini Goal Bot!", to=sid)
+    await sio.emit("chat_response", "Connected to Gemini Goal Bot!", to=sid)
 
     # Init memory for session
     all_skills = get_all_skills()
@@ -96,7 +96,7 @@ async def chat_message(sid, user_input):
     memory = session_memory.get(sid)
 
     if not memory:
-        await sio.emit("chat_response", "❌ Memory not found for session", to=sid)
+        await sio.emit("chat_response", "Memory not found for session", to=sid)
         return
 
     memory["history"].append({"user": user_input})
@@ -137,10 +137,10 @@ async def chat_message(sid, user_input):
 
         if parsed.get("is_goal_set"):
             memory["goal_set"] = True
-            await sio.emit("chat_response", "✅ Goal is set.", to=sid)
+            await sio.emit("chat_response", "Goal is set.", to=sid)
 
     except Exception as e:
-        await sio.emit("chat_response", f"❌ Error parsing Gemini: {e}", to=sid)
+        await sio.emit("chat_response", f"Error parsing Gemini: {e}", to=sid)
 
 @sio.event
 async def disconnect(sid):
